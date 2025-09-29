@@ -1,0 +1,6 @@
+@EventSync_HostAddress = http://localhost:5037
+
+GET {{EventSync_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
