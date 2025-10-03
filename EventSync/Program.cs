@@ -5,25 +5,28 @@ builder.Services.AddControllersWithViews();
 
 Env.Load();
 
-builder.Services.AddAuthentication(Options =>
+builder.Services.AddAuthentication(options =>
 {
-    Options.DefaultAuthenticateScheme = "Cookie";
-    Options.DefaultAuthenticateScheme = "Cookie";
-    Options.DefaultChallengeScheme = "Google";
+    options.DefaultAuthenticateScheme = "Cookie";
+    options.DefaultSignInScheme = "Cookie";
+    options.DefaultChallengeScheme = "Google";
 })
 .AddCookie("Cookie")
-.AddGoogle("Google", Options =>
+.AddGoogle("Google", options =>
 {
-    Options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID")!;
-    Options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")!;
-    Options.Scope.Add("https://www.googleapis.com/auth/calendar");
-    Options.SaveTokens = true;
+    options.ClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID")!;
+    options.ClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")!;
+    options.Scope.Add("https://www.googleapis.com/auth/calendar");
+    options.SaveTokens = true;
 });
 
 var app = builder.Build();
 
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
 
 app.MapControllers(); // Habilita el mapeo de rutas por atributos en los controladores.
 

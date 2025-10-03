@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 public class AuthController : Controller
 {
     public IActionResult Login()
     {
-        return Challenge(new Microsoft.AspNetCore.Authentication.AuthenticationProperties
+        var properties = new AuthenticationProperties
         {
             RedirectUri = "/calendar"
-        }, "Google");
+        };
+        return Challenge(properties, "Google");
+    
     }
 }
