@@ -1,10 +1,9 @@
 
-using Microsoft.Extensions.Options;
 using DotNetEnv;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
-//load the .env file
-Env.Load(); 
+
+Env.Load();
 
 builder.Services.AddAuthentication(Options =>
 {
@@ -25,6 +24,7 @@ var app = builder.Build();
 
 
 app.UseHttpsRedirection();
+
 app.MapControllers(); // Habilita el mapeo de rutas por atributos en los controladores.
 
 app.MapControllerRoute(
