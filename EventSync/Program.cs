@@ -3,7 +3,10 @@ using DotNetEnv;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
+
 Env.Load();
+
+builder.Services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -24,7 +27,9 @@ var app = builder.Build();
 
 
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
 

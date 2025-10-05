@@ -1,28 +1,36 @@
-using Google.Apis.Auth.OAuth2;
-using Google.Apis.Calendar.v3;
-using Google.Apis.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
+/// <summary>
+/// Controlador para gestionar las operaciones del calendario. Requiere autorización.
+/// </summary>
 [Authorize]
 public class CalendarController : Controller
 {
-    public async Task<IActionResult> Index() //preguntar si el "Task" viene del async y que significa lo que hay entre los <> del Task
+    private readonly IGoogleCalendarService _calendarService;
+
+    /// <summary>
+    /// Inicializa una nueva instancia de la clase <see cref="CalendarController"/>.
+    /// </summary>
+    /// <param name="calendarService">El servicio para interactuar con la API de Google Calendar.</param>
+    public CalendarController(IGoogleCalendarService calendarService)
+    {
+        _calendarService = calendarService;
+    }
+
+    /// <summary>
+    /// Muestra la página principal del calendario con los eventos del usuario.
+    /// </summary>
+    /// <returns>Una vista con la lista de eventos del calendario.</returns>
+    public async Task<IActionResult> Index()
     {
         var token = await HttpContext.GetTokenAsync("access_token");
 
-        var credential = GoogleCredential.FromAccessToken(token);
+        if (string.IsNullOrEmpty(token)) return Unauthorized(); //que hace el return Unauthorized?
 
-        var services = new CalendarService(new BaseClientService.Initializer()
-        {
-            HttpClientInitializer = credential,
-            ApplicationName = "GoogleCalendarDemo"
-        });
+        var events = await _calendarService.GetEventsAsync(token);
 
-        var events = await services.Events.List("primary").ExecuteAsync();
-
-        return View(events.Items);
+        return View(events);
     }
-
-    
 }
