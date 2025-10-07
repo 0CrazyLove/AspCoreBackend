@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class CalendarController : Controller
 {
-    private readonly IGoogleCalendarService _calendarService;
+    private readonly ICalendarService _calendarService;
 
     /// <summary>
     /// Inicializa una nueva instancia de la clase <see cref="CalendarController"/>.
     /// </summary>
     /// <param name="calendarService">El servicio para interactuar con la API de Google Calendar.</param>
-    public CalendarController(IGoogleCalendarService calendarService)
+    public CalendarController(ICalendarService calendarService)
     {
         _calendarService = calendarService;
     }

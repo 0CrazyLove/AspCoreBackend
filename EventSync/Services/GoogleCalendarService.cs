@@ -6,7 +6,7 @@ using Google.Apis.Services;
 /// <summary>
 /// Implementación del servicio para interactuar con la API de Google Calendar.
 /// </summary>
-public class GoogleCalendarService : IGoogleCalendarService
+public class GoogleCalendarService : ICalendarService
 {
     private const string ApplicationName = "GoogleCalendarDemo"; //por que se pone const para la variable ApplicationName
 

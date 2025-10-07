@@ -3,7 +3,7 @@ using Google.Apis.Calendar.v3.Data;
 /// <summary>
 /// Define el contrato para un servicio que interactúa con la API de Google Calendar.
 /// </summary>
-public interface IGoogleCalendarService
+public interface ICalendarService
 {
     /// <summary>
     /// Obtiene eventos del calendario de forma asíncrona.

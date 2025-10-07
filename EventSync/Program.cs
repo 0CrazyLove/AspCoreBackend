@@ -6,7 +6,7 @@ builder.Services.AddControllersWithViews();
 
 Env.Load();
 
-builder.Services.AddScoped<IGoogleCalendarService, GoogleCalendarService>();
+builder.Services.AddScoped<ICalendarService, GoogleCalendarService>();
 
 builder.Services.AddAuthentication(options =>
 {
