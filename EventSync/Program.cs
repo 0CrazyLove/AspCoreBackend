@@ -26,7 +26,7 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
@@ -37,7 +37,7 @@ app.MapControllers(); // Habilita el mapeo de rutas por atributos en los control
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}"
+    pattern: "{controller=Calendar}/{action=Index}/{id?}"
 );
 
 
