@@ -70,9 +70,7 @@ public class GoogleCalendarService : ICalendarService
         if (_httpContextAccessor.HttpContext == null) return null;
 
         var access_token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-       
-        Console.WriteLine(access_token);
-
+    
         return access_token;
     }
 
