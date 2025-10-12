@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
+using Google.Apis.Calendar.v3.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 
 /// <summary>
 /// Controlador para gestionar las operaciones del calendario. Requiere autorización.
@@ -29,6 +30,6 @@ public class CalendarController : Controller
 
         return View(events);
     }
-    
-    
+
+
 }

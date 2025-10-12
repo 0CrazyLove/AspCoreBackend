@@ -19,8 +19,6 @@ public class GoogleCalendarService : ICalendarService
     /// <summary>
     /// Obtiene una lista de eventos del calendario principal del usuario.
     /// </summary>
-    /// <returns>Una lista de eventos del calendario.</returns>
-    /// 
     private CalendarService InitializerService(string accessToken)
     {
         var credential = GoogleCredential.FromAccessToken(accessToken);
@@ -29,23 +27,19 @@ public class GoogleCalendarService : ICalendarService
         {
             HttpClientInitializer = credential
         };
-        var CalendarService = new CalendarService(initializer);
+        var calendarService = new CalendarService(initializer);
 
-        return CalendarService;
+        return calendarService;
     }
     public async Task<IList<GoogleCalendar>> GetEventsAsync()
     {
-        var accessToken = await GetAccessTokenAsync();
-        if (string.IsNullOrEmpty(accessToken))
-        {
-            // Podrías lanzar una excepción personalizada o devolver una lista vacía.
-            throw new InvalidOperationException("No se pudo obtener el token de acceso.");
-        }
-        var CalendarService =  InitializerService(accessToken);
+        var accessToken = await ValidateAccessTokenAsync();
+
+        var CalendarService = InitializerService(accessToken);
 
         var events = await CalendarService.Events.List("primary").ExecuteAsync();
 
-        var resultado = events.Items.Select(e => new GoogleCalendar
+        var eventList = events.Items.Select(e => new GoogleCalendar
         {
             Id = e.Id,
             Summary = e.Summary,
@@ -55,28 +49,41 @@ public class GoogleCalendarService : ICalendarService
             EndDate = e.End.DateTimeDateTimeOffset?.DateTime ?? (DateTime.TryParse(e.End.Date, out var endDate) ? endDate : null),
             Organizer = e.Organizer?.DisplayName ?? e.Organizer?.Email ?? string.Empty,
 
-        }).ToList();
+        }).ToList(); //estudiar esto
 
-        return resultado;
+        return eventList;
     }
 
     public async Task<Event> CreateEventAsync(Event calendarEvent)
     {
-        var accessToken = await GetAccessTokenAsync();
-        if (string.IsNullOrEmpty(accessToken)) throw new InvalidOperationException("No se pudo obtener el token de acceso.");
-        
+        var accessToken = await ValidateAccessTokenAsync();
+
         var calendarService = InitializerService(accessToken);
 
         var createdEvent = await calendarService.Events.Insert(calendarEvent, "primary").ExecuteAsync();
 
         return createdEvent;
     }
-    
+
     private async Task<string?> GetAccessTokenAsync()
     {
         if (_httpContextAccessor.HttpContext == null) return null;
-        
-        return await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+
+        var access_token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+       
+        Console.WriteLine(access_token);
+
+        return access_token;
     }
 
+    private async Task<string> ValidateAccessTokenAsync()
+    {
+        var accessToken = await GetAccessTokenAsync();
+
+        if (string.IsNullOrEmpty(accessToken))
+        {
+            throw new InvalidOperationException("No se pudo obtener el token de acceso. El usuario podría necesitar autenticarse de nuevo.");
+        }
+        return accessToken;
+    }
 }

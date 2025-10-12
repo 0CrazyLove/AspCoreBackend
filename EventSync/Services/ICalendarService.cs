@@ -5,12 +5,12 @@ using Google.Apis.Calendar.v3.Data;
 /// </summary>
 public interface ICalendarService
 {
-   
+
     /// <summary>
     /// Obtiene eventos del calendario de forma asíncrona.
     /// </summary>
     /// <returns>Una tarea que representa la operación asíncrona. El resultado de la tarea contiene una lista de eventos (<see cref="Event"/>).</returns>
-     Task<IList<GoogleCalendar>> GetEventsAsync();
+    Task<IList<GoogleCalendar>> GetEventsAsync();
 
     /// <summary>
     /// Crea un nuevo evento en el calendario de forma asíncrona.
