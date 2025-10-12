@@ -5,6 +5,7 @@ builder.Services.AddControllersWithViews();
 
 
 Env.Load();
+builder.Services.AddHttpContextAccessor(); //estudiar esto
 
 builder.Services.AddScoped<ICalendarService, GoogleCalendarService>();
 
@@ -42,4 +43,3 @@ app.MapControllerRoute(
 
 
 app.Run();
-

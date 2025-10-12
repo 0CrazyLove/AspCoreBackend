@@ -25,12 +25,10 @@ public class CalendarController : Controller
     /// <returns>Una vista con la lista de eventos del calendario.</returns>
     public async Task<IActionResult> Index()
     {
-        var token = await HttpContext.GetTokenAsync("access_token");
-
-        if (string.IsNullOrEmpty(token)) return Unauthorized(); //que hace el return Unauthorized?
-
-        var events = await _calendarService.GetEventsAsync(token);
+        var events = await _calendarService.GetEventsAsync();
 
         return View(events);
     }
+    
+    
 }
