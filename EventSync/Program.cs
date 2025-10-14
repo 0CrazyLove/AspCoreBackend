@@ -33,6 +33,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseStaticFiles();
 
 app.MapControllers(); // Habilita el mapeo de rutas por atributos en los controladores.
 
