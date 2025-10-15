@@ -33,7 +33,7 @@ public class GoogleCalendarService : ICalendarService
     }
     public async Task<IList<GoogleCalendar>> GetEventsAsync()
     {
-        var accessToken = await ValidateAccessTokenAsync();
+        var accessToken = await GetValidatedAccessTokenAsync();
 
         var CalendarService = InitializerService(accessToken);
 
@@ -56,7 +56,7 @@ public class GoogleCalendarService : ICalendarService
 
     public async Task<Event> CreateEventAsync(Event calendarEvent)
     {
-        var accessToken = await ValidateAccessTokenAsync();
+        var accessToken = await GetValidatedAccessTokenAsync();
 
         var calendarService = InitializerService(accessToken);
 
@@ -65,23 +65,23 @@ public class GoogleCalendarService : ICalendarService
         return createdEvent;
     }
 
-    private async Task<string?> GetAccessTokenAsync()
+private async Task<string?> GetAccessTokenAsync()
     {
-        if (_httpContextAccessor.HttpContext == null) return null;
+        if (_httpContextAccessor.HttpContext is null) return null;
 
         var access_token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
-    
-        return access_token;
+
+        return string.IsNullOrWhiteSpace(access_token) ? null : access_token;
     }
 
-    private async Task<string> ValidateAccessTokenAsync()
+    private async Task<string> GetValidatedAccessTokenAsync()
     {
-        var accessToken = await GetAccessTokenAsync();
+        var token = await GetAccessTokenAsync();
 
-        if (string.IsNullOrEmpty(accessToken))
+        if (token is null)
         {
             throw new InvalidOperationException("No se pudo obtener el token de acceso. El usuario podría necesitar autenticarse de nuevo.");
         }
-        return accessToken;
+        return token;
     }
 }
