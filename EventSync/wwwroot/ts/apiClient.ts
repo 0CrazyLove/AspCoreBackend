@@ -8,6 +8,4 @@ export async function createEvent(event: CalendarEvent): Promise<void> {
         },
         body: JSON.stringify(event)
     });
-
-
 }

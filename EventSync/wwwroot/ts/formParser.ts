@@ -1,4 +1,9 @@
-export function parseFormData(formData: FormData) {
+import type { CalendarEvent } from "./types.js";
+export function parseFormData(formData: FormData) : CalendarEvent {
+   
+    const summary = formData.get("Summary") as string;
+    const description = formData.get("Description") as string;
+    const location = formData.get("Location") as string;   
     const startDateInput = formData.get("StartDate") as string;
     const endDateInput = formData.get("EndDate") as string;
 
@@ -7,10 +12,12 @@ export function parseFormData(formData: FormData) {
 
 
     return {
-        Summary: formData.get("Summary") as string,
-        Description: formData.get("Description") as string,
-        Location: formData.get("Location") as string,
+        Summary: summary,
+        Description:description,
+        Location: location,
         StartDate:startDate.toISOString(),
         EndDate: endDate.toISOString(),
     };
 }
+
+
