@@ -49,7 +49,7 @@ public class GoogleCalendarService : ICalendarService
             EndDate = e.End.DateTimeDateTimeOffset?.DateTime ?? (DateTime.TryParse(e.End.Date, out var endDate) ? endDate : null),
             Organizer = e.Organizer?.DisplayName ?? e.Organizer?.Email ?? string.Empty,
 
-        }).ToList(); //estudiar esto
+        }).ToList(); 
 
         return eventList;
     }
