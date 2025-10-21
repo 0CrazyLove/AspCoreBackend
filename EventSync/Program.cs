@@ -5,8 +5,7 @@ builder.Services.AddControllersWithViews();
 
 
 Env.Load();
-builder.Services.AddHttpContextAccessor(); //estudiar esto
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICalendarService, GoogleCalendarService>();
 
 builder.Services.AddAuthentication(options =>
